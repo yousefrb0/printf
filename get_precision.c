@@ -8,36 +8,36 @@
  *
  * Return: Precision value.
  */
-int get_precision(const char *fm, int *i, va_list li)
+int get_precision(const char *format, int *i, va_list list)
 {
-    int _currunt_i = *i + 1;    // Initialize current index after '.'
+    int curr_i = *i + 1;    // Initialize current index after '.'
     int precision = -1;     // Initialize precision to -1 (default)
 
     // Check if precision specifier exists
-    if (fm[_currunt_i] != '.')
+    if (format[curr_i] != '.')
         return (precision);
 
     precision = 0; // Reset precision
 
     // Loop through characters after '.'
-    for (_currunt_i += 1; fm[_currunt_i] != '\0'; _currunt_i++)
+    for (curr_i += 1; format[curr_i] != '\0'; curr_i++)
     {
-        if (is_digit(fm[_currunt_i])) // If current character is a digit
+        if (is_digit(format[curr_i])) // If current character is a digit
         {
             precision *= 10;
-            precision += fm[_currunt_i] - '0'; // Calculate precision value
+            precision += format[curr_i] - '0'; // Calculate precision value
         }
-        else if (fm[_currunt_i] == '*') // If '*' character is encountered
+        else if (format[curr_i] == '*') // If '*' character is encountered
         {
-            _currunt_i++; // Move to the next character
-            precision = va_arg(li, int); // Get precision from variable argument list
+            curr_i++; // Move to the next character
+            precision = va_arg(list, int); // Get precision from variable argument list
             break; // Exit loop after getting precision from '*'
         }
         else
             break; // Exit loop if an invalid character is encountered
     }
 
-    *i = _currunt_i - 1; // Update the index to the last processed character
+    *i = curr_i - 1; // Update the index to the last processed character
 
     return (precision); // Return the calculated precision
 }
